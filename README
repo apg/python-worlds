@@ -1,0 +1,36 @@
+Worlds for Python
+
+A hack attempt at making Alessandro Warth's Worlds 
+(www.vpri.org/pdf/rn2008001_worlds.pdf) in Python.
+
+if __name__ == '__main__':
+    with Universe():
+        thisWorld.bigfat = True
+        thisWorld.coward = False
+
+        new = thisWorld.sprout()
+        new.coward = True
+        print 'new == thisWorld?', new == thisWorld
+
+        with new.sprout():
+            thisWorld.never_defined = "this should raise a NameError later"
+
+        print 'coward yet in this world?', thisWorld.coward
+        new.commit()
+        thisWorld.commit()
+
+    print "Is bigfat (%s)and coward (%s)?" % (bigfat, coward)
+    
+    print "NameError raised here, since never_defined was never committed to the world with no parent (the one introduced by the Universe)", never_defined
+
+
+Prints out:
+
+new == thisWorld? False
+coward yet in this world? False
+Is bigfat (True)and coward (True)?
+NameError raised here, since never_defined was never committed to the world with no parent (the one introduced by the Universe)
+Traceback (most recent call last):
+  File "worlds.py", line 132, in <module>
+    print "NameError raised here, since never_defined was never committed to the world with no parent (the one introduced by the Universe)", never_defined
+NameError: name 'never_defined' is not defined
